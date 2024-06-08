@@ -7,8 +7,16 @@ export const CreateOrderPaypal = async (data) => {
         },
         body: JSON.stringify(data),
     });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+            errorData.error ||
+                "An error occurred while creating the PayPal order."
+        );
+    }
+
     const order = await response.json();
-    console.log("CreateOrderPaypal:: order:: ", order);
     return order.id;
 };
 
@@ -20,8 +28,14 @@ export const onApprovePaypal = async (orderID) => {
         },
         body: JSON.stringify({orderID: orderID}),
     });
-    const details = await response.json();
-    console.log("onAprovePaypal:: details:: ", details);
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+            errorData.error ||
+                "An error occurred while creating the PayPal order."
+        );
+    }
 
+    const details = await response.json();
     return details;
 };

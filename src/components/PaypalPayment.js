@@ -22,18 +22,19 @@ export function PaypalPayment() {
                     await paypal
                         .Buttons({
                             async createOrder() {
-                                console.log("createOrder");
                                 const orderID = await CreateOrderPaypal({
                                     curso: 10,
                                 });
                                 return orderID;
                             },
                             async onApprove(data, actions) {
-                                console.log("onAprove");
                                 const details = await onApprovePaypal(
                                     data.orderID
                                 );
-                                console.log("onApprove:: ", details);
+                                console.log(
+                                    "onApprove. returned value:: ",
+                                    details
+                                );
                             },
                         })
                         .render("#paypal-div");
